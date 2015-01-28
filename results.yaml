@@ -1,0 +1,16 @@
+!ladder
+id_ctr: 5
+players:
+  0: !player {aga_id: 12345, name: Andrew, rank: !rank '1K'}
+  1: !player {aga_id: 12390, name: Walther, rank: !rank '5D'}
+  2: !player {aga_id: 234, name: Milan, rank: !rank '6K'}
+  3: !player {aga_id: 2399, name: James, rank: !rank '10K'}
+  4: !player {aga_id: 2, name: Quinten, rank: !rank '3D'}
+results:
+- !result {black: 1, time: !!timestamp '2015-01-15 19:55:19.497431+00:00', white: 0,
+winner: 1}
+- !result {black: 2, time: !!timestamp '2015-01-15 19:55:19.497455+00:00', white: 0,
+  winner: 0}
+- !result {black: 4, time: !!timestamp '2015-01-15 19:55:19.497467+00:00', white: 3,
+  winner: 4}
+standings: [1, 0, 2, 4, 3]
