@@ -1,0 +1,18 @@
+id_ctr: 5
+
+players:
+  1: {aga_id: 12345, name: Andrew, rank: '1K'}
+  2: {aga_id: 12390, name: Walther, rank: '5D'}
+  3: {aga_id: 234, name: Milan, rank: '6K'}
+  4: {aga_id: 2399, name: James, rank: '10K'}
+  5: {aga_id: 2, name: Quinten, rank: '3D'}
+
+results:
+- {black: 1, time: '2015-01-15 19:55:19.497431+00:00', white: 2,
+winner: 1, rated: True}
+- {black: 2, time: '2015-01-15 19:55:19.497455+00:00', white: 3,
+  winner: 2, rated: False}
+- {black: 4, time: '2015-01-15 19:55:19.497467+00:00', white: 3,
+  winner: 4, rated: True}
+
+standings: [1, 5, 2, 4, 3]
