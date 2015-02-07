@@ -1,7 +1,12 @@
 #! /usr/bin/env python3
 
+import os
 import unittest
+import yaml
 from datetime import datetime, timezone
+
+from pynamodb.models import Model
+from pynamodb.attributes import (NumberAttribute, JSONAttribute)
 
 
 class Rank(object):
@@ -96,7 +101,13 @@ class Result(object):
         self.time = time
 
 
-class Ladder(object):
+class Ladder(Model):
+    class Meta:
+        table_name = "Ladder"
+        host = "http://localhost:8000"
+    
+    ladder_id = NumberAttribute(has_key=True)
+    ladder_info = JSONAttribute()
 
     def __init__(self, players=None, standings=None, results=None, base_id=0):
         if standings is None:
@@ -149,6 +160,12 @@ class Ladder(object):
             self.standings.remove(result.black)
             self.standings.insert(self.standings.index(result.white), result.black)
         self.results.append(result)
+
+def init_db():
+    if not Ladder.exists():
+        Ladder.create_table(read_capacity_units=1,
+                            write_capacity_units=1,
+                            wait=True)
 
 
 class RankTestCase(unittest.TestCase):

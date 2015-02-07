@@ -54,7 +54,8 @@ class Ladder (Model):
         host = 'http://localhost:8000'
     ladder_id = NumberAttribute(hash_key=True)
     ladder_name = UnicodeAttribute()
-    standings = JSONAttribute()
+    standings_calc = JSONAttribute() #this one with ID, for storing state
+    standings = JSONAttribute() #this one for direct display, has names and rank
     player_count = NumberAttribute()
     last_action_id = NumberAttribute()
 
@@ -67,26 +68,20 @@ class Player (Model):
     name = UnicodeAttribute()
     rank = UnicodeAttribute()
 
-class AdminAction (Model):
-    class Meta:
-        table_name = 'AdminAction'
-        host = 'http://localhost:8000'
-    ladder_id = NumberAttribute(hash_key=True)
-    timestamp = UnicodeAttribute(range_key=True)
-    action_type = UnicodeAttribute() # add, drop, del, rank
-    player_id = UnicodeAttribute()
-    player_rank = UnicodeAttribute(null=True)
-
 class Result (Model):
     class Meta:
         table_name = 'Result'
         host = 'http://localhost:8000'
     ladder_id = NumberAttribute(hash_key=True)
     timestamp = UnicodeAttribute(range_key=True) #can change to UTC
-    game_black_id = NumberAttribute()
-    game_white_id = NumberAttribute()
-    game_winner_id = NumberAttribute()
-    rated = BooleanAttribute()
+    action_type = UnicodeAttribute() # add, drop, del, rank, admin
+    action = JSONAttribute()
+    #action_player_id = UnicodeAttribute(null=True)
+    #action_player_rank = UnicodeAttribute(null=True)
+    #game_black_id = NumberAttribute(null=True)
+    #game_white_id = NumberAttribute(null=True)
+    #game_winner_id = NumberAttribute(null=True)
+    #rated = BooleanAttribute(null=True)
 
 def init_db():
     if not Ladder.exists():
@@ -138,11 +133,12 @@ def populate_db(file_path):
                             rank      = rank)
         new_player.save()
 
-    # map to AdminAction table
-
     # map to Result table
     # ladder_id already assigned above 
+    # This is not functional, since above Result model is changed
     for res in ladder_info['results']:
+
+        # add 'if game_action= game':
         timestamp = res['time']
         game_black_id = res['black']
         game_white_id = res['white']
@@ -156,7 +152,7 @@ def populate_db(file_path):
                          rated = rated)
         new_res.save()
         
-    return ladder_info
+    return ladder_info # for testing purposes
 
 #Modify routes to enter db info, put up admin page
     
